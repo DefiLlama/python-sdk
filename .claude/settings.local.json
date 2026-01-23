@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install:*)",
+      "Bash(python -m build:*)",
+      "Bash(python3 -m build:*)",
+      "Bash(twine upload:*)",
+      "Bash(unzip:*)",
+      "Bash(pip show:*)"
+    ]
+  }
+}

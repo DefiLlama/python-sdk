@@ -3,25 +3,27 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "defillama-api"
-version = "0.1.0"
+name = "defillama-sdk"
+version = "0.1.1"
 description = "Python SDK for DefiLlama API"
+authors = [{name = "DefiLlama"}]
 readme = "README.md"
 requires-python = ">=3.9"
-license = { text = "MIT" }
 keywords = ["defillama", "defi", "tvl", "cryptocurrency", "api", "sdk"]
 dependencies = ["requests>=2.31.0"]
+license-files = []
 
 [project.urls]
 Homepage = "https://api-docs.defillama.com/"
+Repository = "https://github.com/DefiLlama/python-sdk"
 
 [tool.setuptools]
 packages = [
-  "defillama_api",
-  "defillama_api.constants",
-  "defillama_api.modules",
-  "defillama_api.types",
+  "defillama_sdk",
+  "defillama_sdk.constants",
+  "defillama_sdk.modules",
+  "defillama_sdk.types",
 ]
 
 [tool.setuptools.package-data]
-defillama_api = ["py.typed"]
+defillama_sdk = ["py.typed"]

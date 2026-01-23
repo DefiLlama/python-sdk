@@ -5,17 +5,17 @@ Official Python SDK for the [DefiLlama API](https://api-docs.defillama.com/). Ac
 ## Installation
 
 ```bash
-pip install defillama-api
+pip install defillama-sdk
 ```
 
 ```bash
-uv pip install defillama-api
+uv pip install defillama-sdk
 ```
 
 ## Quick Start
 
 ```python
-from defillama_api import DefiLlama
+from defillama_sdk import DefiLlama
 
 # Free tier
 client = DefiLlama()
@@ -374,7 +374,7 @@ Protocol fees and revenue data.
 ### Fee Data Types
 
 ```python
-from defillama_api import FeeDataType
+from defillama_sdk import FeeDataType
 
 FeeDataType.DAILY_FEES
 FeeDataType.DAILY_REVENUE
@@ -629,7 +629,7 @@ usage = pro_client.account.getUsage()
 ## Error Handling
 
 ```python
-from defillama_api import ApiKeyRequiredError, RateLimitError, NotFoundError, ApiError
+from defillama_sdk import ApiKeyRequiredError, RateLimitError, NotFoundError, ApiError
 
 try:
     data = pro_client.yields.getPools()
@@ -647,10 +647,10 @@ except ApiError as exc:
 
 ## Type Exports
 
-All types are available from `defillama_api.types`, and are re-exported at the top level:
+All types are available from `defillama_sdk.types`, and are re-exported at the top level:
 
 ```python
-from defillama_api import Protocol, CoinPricesResponse, Stablecoin, YieldPool
+from defillama_sdk import Protocol, CoinPricesResponse, Stablecoin, YieldPool
 ```
 
 ---
@@ -658,7 +658,7 @@ from defillama_api import Protocol, CoinPricesResponse, Stablecoin, YieldPool
 ## Constants
 
 ```python
-from defillama_api import AdapterType, FeeDataType, VolumeDataType
+from defillama_sdk import AdapterType, FeeDataType, VolumeDataType
 
 AdapterType.DEXS
 VolumeDataType.DAILY_VOLUME
