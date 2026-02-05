@@ -32,12 +32,11 @@ class VolumesModule:
         if options:
             if options.get("excludeTotalDataChart") is not None:
                 params["excludeTotalDataChart"] = options.get("excludeTotalDataChart")
-            if options.get("excludeTotalDataChartBreakdown") is not None:
-                params["excludeTotalDataChartBreakdown"] = options.get(
-                    "excludeTotalDataChartBreakdown"
-                )
             if options.get("dataType"):
                 params["dataType"] = options.get("dataType")
+        params["excludeTotalDataChartBreakdown"] = not (
+            options and options.get("excludeTotalDataChartBreakdown") is False
+        )
         return self._client.get(
             "/overview/dexs",
             params=params or None,
@@ -52,10 +51,9 @@ class VolumesModule:
         if options:
             if options.get("excludeTotalDataChart") is not None:
                 params["excludeTotalDataChart"] = options.get("excludeTotalDataChart")
-            if options.get("excludeTotalDataChartBreakdown") is not None:
-                params["excludeTotalDataChartBreakdown"] = options.get(
-                    "excludeTotalDataChartBreakdown"
-                )
+        params["excludeTotalDataChartBreakdown"] = not (
+            options and options.get("excludeTotalDataChartBreakdown") is False
+        )
         return self._client.get(
             f"/overview/dexs/{quote(chain)}",
             params=params or None,
@@ -83,10 +81,9 @@ class VolumesModule:
         if options:
             if options.get("excludeTotalDataChart") is not None:
                 params["excludeTotalDataChart"] = options.get("excludeTotalDataChart")
-            if options.get("excludeTotalDataChartBreakdown") is not None:
-                params["excludeTotalDataChartBreakdown"] = options.get(
-                    "excludeTotalDataChartBreakdown"
-                )
+        params["excludeTotalDataChartBreakdown"] = not (
+            options and options.get("excludeTotalDataChartBreakdown") is False
+        )
         return self._client.get(
             "/overview/options",
             params=params or None,

@@ -38,13 +38,12 @@ class FeesModule:
         if options:
             if options.get("excludeTotalDataChart") is not None:
                 params["excludeTotalDataChart"] = options.get("excludeTotalDataChart")
-            if options.get("excludeTotalDataChartBreakdown") is not None:
-                params["excludeTotalDataChartBreakdown"] = options.get(
-                    "excludeTotalDataChartBreakdown"
-                )
             data_type = _data_type_value(options.get("dataType"))
             if data_type:
                 params["dataType"] = data_type
+        params["excludeTotalDataChartBreakdown"] = not (
+            options and options.get("excludeTotalDataChartBreakdown") is False
+        )
         return self._client.get(
             "/overview/fees",
             params=params or None,
@@ -59,13 +58,12 @@ class FeesModule:
         if options:
             if options.get("excludeTotalDataChart") is not None:
                 params["excludeTotalDataChart"] = options.get("excludeTotalDataChart")
-            if options.get("excludeTotalDataChartBreakdown") is not None:
-                params["excludeTotalDataChartBreakdown"] = options.get(
-                    "excludeTotalDataChartBreakdown"
-                )
             data_type = _data_type_value(options.get("dataType"))
             if data_type:
                 params["dataType"] = data_type
+        params["excludeTotalDataChartBreakdown"] = not (
+            options and options.get("excludeTotalDataChartBreakdown") is False
+        )
         return self._client.get(
             f"/overview/fees/{quote(chain)}",
             params=params or None,
