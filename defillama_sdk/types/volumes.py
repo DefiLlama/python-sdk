@@ -1,6 +1,6 @@
 """Volume type definitions."""
 
-from typing import Dict, List, Optional, Tuple, TypedDict, Literal
+from typing import Dict, List, Optional, Tuple, TypedDict, Literal, Union
 
 
 class VolumeOverviewOptions(TypedDict, total=False):
@@ -32,6 +32,8 @@ class VolumeProtocol(TypedDict, total=False):
     total60dto30d: Optional[float]
     total1y: Optional[float]
     totalAllTime: Optional[float]
+    total7DaysAgo: Optional[float]
+    total30DaysAgo: Optional[float]
     average1y: Optional[float]
     monthlyAverage1y: Optional[float]
     change_1d: Optional[float]
@@ -41,6 +43,8 @@ class VolumeProtocol(TypedDict, total=False):
     change_30dover30d: Optional[float]
     breakdown24h: Optional[Dict[str, Dict[str, float]]]
     breakdown30d: Optional[Dict[str, Dict[str, float]]]
+    linkedProtocols: Optional[List[str]]
+    doublecounted: Optional[bool]
     parentProtocol: Optional[str]
     slug: str
 
@@ -116,6 +120,104 @@ class VolumeSummaryResponse(TypedDict, total=False):
     change_1d: Optional[float]
 
 
+class VolumeMetricsOptions(TypedDict, total=False):
+    dataType: Optional[Literal["dailyVolume", "totalVolume"]]
+
+
+class VolumeMetricsProtocol(TypedDict, total=False):
+    id: Optional[str]
+    tokenRights: Optional[Dict[str, object]]
+    symbol: Optional[str]
+    address: Optional[str]
+    linkedProtocols: Optional[List[str]]
+    childProtocols: Optional[List["VolumeMetricsChildProtocol"]]
+    defillamaId: str
+    displayName: str
+    module: Optional[str]
+    category: Optional[str]
+    methodologyURL: Optional[str]
+    methodology: Optional[Dict[str, str]]
+    forkedFrom: Optional[List[str]]
+    audits: Optional[str]
+    audit_links: Optional[List[str]]
+    parentProtocol: Optional[str]
+    previousNames: Optional[List[str]]
+    hallmarks: Optional[List[Tuple[int, str]]]
+    defaultChartView: Optional[str]
+    breakdownMethodology: Optional[Union[str, Dict[str, Dict[str, str]]]]
+    slug: str
+    protocolType: str
+    total24h: Optional[float]
+    total48hto24h: Optional[float]
+    total7d: Optional[float]
+    total30d: Optional[float]
+    totalAllTime: Optional[float]
+    hasLabelBreakdown: bool
+    change_1d: Optional[float]
+    dimensions: Optional[Dict[str, object]]
+    misrepresentedTokens: bool
+    doublecounted: Optional[bool]
+    referralUrl: Optional[str]
+
+
+class VolumeMetricsChildProtocol(TypedDict, total=False):
+    name: str
+    defillamaId: str
+    displayName: str
+    methodologyURL: Optional[str]
+    methodology: Optional[Dict[str, str]]
+    defaultChartView: Optional[str]
+    breakdownMethodology: Optional[Union[str, Dict[str, Dict[str, str]]]]
+
+
+class VolumeMetricsResponse(TypedDict, total=False):
+    protocols: List[VolumeMetricsProtocol]
+    total24h: Optional[float]
+    total48hto24h: Optional[float]
+    total7d: Optional[float]
+    total30d: Optional[float]
+    totalAllTime: Optional[float]
+    hasLabelBreakdown: bool
+    change_1d: Optional[float]
+    dimensions: Optional[Dict[str, object]]
+
+
+class VolumeMetricsByProtocolResponse(TypedDict, total=False):
+    id: Optional[str]
+    tokenRights: Optional[Dict[str, object]]
+    symbol: Optional[str]
+    address: Optional[str]
+    linkedProtocols: Optional[List[str]]
+    childProtocols: Optional[List[VolumeMetricsChildProtocol]]
+    defillamaId: str
+    displayName: str
+    module: Optional[str]
+    category: Optional[str]
+    methodologyURL: Optional[str]
+    methodology: Optional[Dict[str, str]]
+    forkedFrom: Optional[List[str]]
+    audits: Optional[str]
+    audit_links: Optional[List[str]]
+    parentProtocol: Optional[str]
+    previousNames: Optional[List[str]]
+    hallmarks: Optional[List[Tuple[int, str]]]
+    defaultChartView: Optional[str]
+    breakdownMethodology: Optional[Union[str, Dict[str, Dict[str, str]]]]
+    slug: str
+    protocolType: str
+    total24h: Optional[float]
+    total48hto24h: Optional[float]
+    total7d: Optional[float]
+    total30d: Optional[float]
+    totalAllTime: Optional[float]
+    hasLabelBreakdown: bool
+    change_1d: Optional[float]
+    dimensions: Optional[Dict[str, object]]
+    misrepresentedTokens: bool
+    doublecounted: Optional[bool]
+    referralUrl: Optional[str]
+
+
 DexOverviewOptions = VolumeOverviewOptions
 DexOverviewResponse = VolumeOverviewResponse
 DexSummaryOptions = VolumeSummaryOptions
@@ -126,6 +228,16 @@ OptionsSummaryResponse = VolumeSummaryResponse
 DerivativesOverviewResponse = VolumeOverviewResponse
 DerivativesSummaryResponse = VolumeSummaryResponse
 
+DexMetricsOptions = VolumeMetricsOptions
+DexMetricsResponse = VolumeMetricsResponse
+DexMetricsByProtocolResponse = VolumeMetricsByProtocolResponse
+DerivativesMetricsOptions = VolumeMetricsOptions
+DerivativesMetricsResponse = VolumeMetricsResponse
+DerivativesMetricsByProtocolResponse = VolumeMetricsByProtocolResponse
+OptionsMetricsOptions = VolumeMetricsOptions
+OptionsMetricsResponse = VolumeMetricsResponse
+OptionsMetricsByProtocolResponse = VolumeMetricsByProtocolResponse
+
 
 __all__ = [
     "VolumeOverviewOptions",
@@ -135,6 +247,11 @@ __all__ = [
     "VolumeSummaryResponse",
     "VolumeChartBreakdownDataPoint",
     "VolumeNestedChartBreakdownDataPoint",
+    "VolumeMetricsOptions",
+    "VolumeMetricsProtocol",
+    "VolumeMetricsChildProtocol",
+    "VolumeMetricsResponse",
+    "VolumeMetricsByProtocolResponse",
     "DexOverviewOptions",
     "DexOverviewResponse",
     "DexSummaryOptions",
@@ -144,4 +261,13 @@ __all__ = [
     "OptionsSummaryResponse",
     "DerivativesOverviewResponse",
     "DerivativesSummaryResponse",
+    "DexMetricsOptions",
+    "DexMetricsResponse",
+    "DexMetricsByProtocolResponse",
+    "DerivativesMetricsOptions",
+    "DerivativesMetricsResponse",
+    "DerivativesMetricsByProtocolResponse",
+    "OptionsMetricsOptions",
+    "OptionsMetricsResponse",
+    "OptionsMetricsByProtocolResponse",
 ]

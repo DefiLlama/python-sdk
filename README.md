@@ -365,6 +365,57 @@ derivatives = pro_client.volumes.getDerivativesOverview()
 gmx = pro_client.volumes.getDerivativesSummary("gmx")
 ```
 
+### getDexMetrics 🔐
+
+Get summary of DEX metrics with protocol list (no charts).
+
+```python
+metrics = pro_client.volumes.getDexMetrics()
+
+# With data type
+metrics = pro_client.volumes.getDexMetrics({"dataType": "dailyVolume"})
+```
+
+### getDexMetricsByProtocol 🔐
+
+Get DEX metrics for a specific protocol.
+
+```python
+uniswap = pro_client.volumes.getDexMetricsByProtocol("uniswap")
+```
+
+### getDerivativesMetrics 🔐
+
+Get summary of derivatives metrics with protocol list (no charts).
+
+```python
+metrics = pro_client.volumes.getDerivativesMetrics()
+```
+
+### getDerivativesMetricsByProtocol 🔐
+
+Get derivatives metrics for a specific protocol.
+
+```python
+hyperliquid = pro_client.volumes.getDerivativesMetricsByProtocol("hyperliquid")
+```
+
+### getOptionsMetrics 🔐
+
+Get summary of options metrics with protocol list (no charts).
+
+```python
+metrics = pro_client.volumes.getOptionsMetrics()
+```
+
+### getOptionsMetricsByProtocol 🔐
+
+Get options metrics for a specific protocol.
+
+```python
+hegic = pro_client.volumes.getOptionsMetricsByProtocol("hegic")
+```
+
 ---
 
 ## Fees
