@@ -14,6 +14,15 @@ from ..types.volumes import (
     OptionsOverviewOptions,
     OptionsOverviewResponse,
     OptionsSummaryResponse,
+    DexMetricsOptions,
+    DexMetricsResponse,
+    DexMetricsByProtocolResponse,
+    DerivativesMetricsOptions,
+    DerivativesMetricsResponse,
+    DerivativesMetricsByProtocolResponse,
+    OptionsMetricsOptions,
+    OptionsMetricsResponse,
+    OptionsMetricsByProtocolResponse,
 )
 
 
@@ -110,4 +119,82 @@ class VolumesModule:
         return self._client.get(
             f"/summary/derivatives/{quote(protocol)}",
             requires_auth=True,
+        )
+
+    def getDexMetrics(
+        self, options: Optional[DexMetricsOptions] = None
+    ) -> DexMetricsResponse:
+        params = {}
+        if options and options.get("dataType"):
+            params["dataType"] = options.get("dataType")
+        return self._client.get(
+            "/metrics/dexs",
+            base="v2",
+            requires_auth=True,
+            params=params or None,
+        )
+
+    def getDexMetricsByProtocol(
+        self, protocol: str, options: Optional[DexMetricsOptions] = None
+    ) -> DexMetricsByProtocolResponse:
+        params = {}
+        if options and options.get("dataType"):
+            params["dataType"] = options.get("dataType")
+        return self._client.get(
+            f"/metrics/dexs/protocol/{quote(protocol)}",
+            base="v2",
+            requires_auth=True,
+            params=params or None,
+        )
+
+    def getDerivativesMetrics(
+        self, options: Optional[DerivativesMetricsOptions] = None
+    ) -> DerivativesMetricsResponse:
+        params = {}
+        if options and options.get("dataType"):
+            params["dataType"] = options.get("dataType")
+        return self._client.get(
+            "/metrics/derivatives",
+            base="v2",
+            requires_auth=True,
+            params=params or None,
+        )
+
+    def getDerivativesMetricsByProtocol(
+        self, protocol: str, options: Optional[DerivativesMetricsOptions] = None
+    ) -> DerivativesMetricsByProtocolResponse:
+        params = {}
+        if options and options.get("dataType"):
+            params["dataType"] = options.get("dataType")
+        return self._client.get(
+            f"/metrics/derivatives/protocol/{quote(protocol)}",
+            base="v2",
+            requires_auth=True,
+            params=params or None,
+        )
+
+    def getOptionsMetrics(
+        self, options: Optional[OptionsMetricsOptions] = None
+    ) -> OptionsMetricsResponse:
+        params = {}
+        if options and options.get("dataType"):
+            params["dataType"] = options.get("dataType")
+        return self._client.get(
+            "/metrics/options",
+            base="v2",
+            requires_auth=True,
+            params=params or None,
+        )
+
+    def getOptionsMetricsByProtocol(
+        self, protocol: str, options: Optional[OptionsMetricsOptions] = None
+    ) -> OptionsMetricsByProtocolResponse:
+        params = {}
+        if options and options.get("dataType"):
+            params["dataType"] = options.get("dataType")
+        return self._client.get(
+            f"/metrics/options/protocol/{quote(protocol)}",
+            base="v2",
+            requires_auth=True,
+            params=params or None,
         )

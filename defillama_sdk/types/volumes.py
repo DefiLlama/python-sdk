@@ -14,6 +14,7 @@ class VolumeSummaryOptions(TypedDict, total=False):
 
 
 class VolumeProtocol(TypedDict, total=False):
+    id: Optional[str]
     defillamaId: str
     name: str
     displayName: str
@@ -32,6 +33,8 @@ class VolumeProtocol(TypedDict, total=False):
     total60dto30d: Optional[float]
     total1y: Optional[float]
     totalAllTime: Optional[float]
+    total7DaysAgo: Optional[float]
+    total30DaysAgo: Optional[float]
     average1y: Optional[float]
     monthlyAverage1y: Optional[float]
     change_1d: Optional[float]
@@ -41,6 +44,8 @@ class VolumeProtocol(TypedDict, total=False):
     change_30dover30d: Optional[float]
     breakdown24h: Optional[Dict[str, Dict[str, float]]]
     breakdown30d: Optional[Dict[str, Dict[str, float]]]
+    linkedProtocols: Optional[List[str]]
+    doublecounted: Optional[bool]
     parentProtocol: Optional[str]
     slug: str
 
@@ -116,6 +121,91 @@ class VolumeSummaryResponse(TypedDict, total=False):
     change_1d: Optional[float]
 
 
+class VolumeMetricsOptions(TypedDict, total=False):
+    dataType: Optional[Literal["dailyVolume", "totalVolume"]]
+
+
+class VolumeMetricsResponse(TypedDict, total=False):
+    breakdown24h: Optional[Dict[str, Dict[str, float]]]
+    breakdown30d: Optional[Dict[str, Dict[str, float]]]
+    chain: Optional[str]
+    allChains: List[str]
+    total24h: float
+    total48hto24h: float
+    total7d: float
+    total14dto7d: float
+    total30d: float
+    total60dto30d: float
+    total1y: float
+    change_1d: float
+    change_7d: float
+    change_1m: float
+    change_7dover7d: float
+    change_30dover30d: float
+    total7DaysAgo: float
+    total30DaysAgo: float
+    totalAllTime: float
+    protocols: List[VolumeProtocol]
+
+
+class VolumeMetricsChildProtocol(TypedDict, total=False):
+    name: str
+    defillamaId: str
+    displayName: str
+    methodologyURL: Optional[str]
+    methodology: Optional[Dict[str, str]]
+    defaultChartView: Optional[str]
+    breakdownMethodology: Optional[object]
+
+
+class VolumeMetricsByProtocolResponse(TypedDict, total=False):
+    id: str
+    name: str
+    url: str
+    description: str
+    logo: str
+    gecko_id: Optional[str]
+    cmcId: Optional[str]
+    chains: List[str]
+    chain: Optional[str]
+    twitter: Optional[str]
+    treasury: Optional[str]
+    governanceID: Optional[List[str]]
+    github: Optional[List[str]]
+    tokenRights: Optional[Dict[str, object]]
+    symbol: Optional[str]
+    address: Optional[str]
+    linkedProtocols: Optional[List[str]]
+    childProtocols: Optional[List[VolumeMetricsChildProtocol]]
+    defillamaId: str
+    displayName: str
+    module: Optional[str]
+    category: Optional[str]
+    methodologyURL: Optional[str]
+    methodology: Optional[Dict[str, str]]
+    forkedFrom: Optional[List[str]]
+    audits: Optional[str]
+    audit_links: Optional[List[str]]
+    parentProtocol: Optional[str]
+    previousNames: Optional[List[str]]
+    hallmarks: Optional[List[List[object]]]
+    defaultChartView: Optional[str]
+    breakdownMethodology: Optional[object]
+    slug: str
+    protocolType: str
+    total24h: Optional[float]
+    total48hto24h: Optional[float]
+    total7d: Optional[float]
+    total30d: Optional[float]
+    totalAllTime: Optional[float]
+    hasLabelBreakdown: bool
+    change_1d: Optional[float]
+    dimensions: Optional[Dict[str, object]]
+    misrepresentedTokens: Optional[bool]
+    doublecounted: Optional[bool]
+    referralUrl: Optional[str]
+
+
 DexOverviewOptions = VolumeOverviewOptions
 DexOverviewResponse = VolumeOverviewResponse
 DexSummaryOptions = VolumeSummaryOptions
@@ -126,22 +216,45 @@ OptionsSummaryResponse = VolumeSummaryResponse
 DerivativesOverviewResponse = VolumeOverviewResponse
 DerivativesSummaryResponse = VolumeSummaryResponse
 
+DexMetricsOptions = VolumeMetricsOptions
+DexMetricsResponse = VolumeMetricsResponse
+DexMetricsByProtocolResponse = VolumeMetricsByProtocolResponse
+DerivativesMetricsOptions = VolumeMetricsOptions
+DerivativesMetricsResponse = VolumeMetricsResponse
+DerivativesMetricsByProtocolResponse = VolumeMetricsByProtocolResponse
+OptionsMetricsOptions = VolumeMetricsOptions
+OptionsMetricsResponse = VolumeMetricsResponse
+OptionsMetricsByProtocolResponse = VolumeMetricsByProtocolResponse
+
 
 __all__ = [
     "VolumeOverviewOptions",
     "VolumeSummaryOptions",
+    "VolumeMetricsOptions",
     "VolumeProtocol",
     "VolumeOverviewResponse",
     "VolumeSummaryResponse",
+    "VolumeMetricsResponse",
+    "VolumeMetricsByProtocolResponse",
+    "VolumeMetricsChildProtocol",
     "VolumeChartBreakdownDataPoint",
     "VolumeNestedChartBreakdownDataPoint",
     "DexOverviewOptions",
     "DexOverviewResponse",
     "DexSummaryOptions",
     "DexSummaryResponse",
+    "DexMetricsOptions",
+    "DexMetricsResponse",
+    "DexMetricsByProtocolResponse",
     "OptionsOverviewOptions",
     "OptionsOverviewResponse",
     "OptionsSummaryResponse",
+    "OptionsMetricsOptions",
+    "OptionsMetricsResponse",
+    "OptionsMetricsByProtocolResponse",
     "DerivativesOverviewResponse",
     "DerivativesSummaryResponse",
+    "DerivativesMetricsOptions",
+    "DerivativesMetricsResponse",
+    "DerivativesMetricsByProtocolResponse",
 ]

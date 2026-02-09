@@ -43,9 +43,16 @@ class FeesProtocol(TypedDict, total=False):
     total30DaysAgo: Optional[float]
     average1y: Optional[float]
     monthlyAverage1y: Optional[float]
+    change_1d: Optional[float]
+    change_7d: Optional[float]
+    change_1m: Optional[float]
+    change_7dover7d: Optional[float]
     change_30dover30d: Optional[float]
     breakdown24h: Optional[Dict[str, Dict[str, float]]]
     breakdown30d: Optional[Dict[str, Dict[str, float]]]
+    breakdownMethodology: Optional[object]
+    hasLabelBreakdown: Optional[bool]
+    linkedProtocols: Optional[List[str]]
     parentProtocol: Optional[str]
     slug: str
 
@@ -82,7 +89,7 @@ class FeesSummaryChildProtocol(TypedDict, total=False):
     methodologyURL: Optional[str]
     methodology: Optional[Dict[str, str]]
     defaultChartView: Optional[str]
-    breakdownMethodology: Optional[str]
+    breakdownMethodology: Optional[object]
 
 
 class FeesSummaryResponse(TypedDict, total=False):
@@ -144,15 +151,26 @@ class FeesChartBreakdownResponse(TypedDict):
 
 
 class FeesMetricsResponse(TypedDict, total=False):
+    breakdown24h: Optional[Dict[str, Dict[str, float]]]
+    breakdown30d: Optional[Dict[str, Dict[str, float]]]
+    chain: Optional[str]
+    allChains: List[str]
     total24h: float
+    total48hto24h: float
     total7d: float
+    total14dto7d: float
     total30d: float
-    total1y: Optional[float]
+    total60dto30d: float
+    total1y: float
     change_1d: float
     change_7d: float
     change_1m: float
+    change_7dover7d: float
+    change_30dover30d: float
+    total7DaysAgo: float
+    total30DaysAgo: float
+    totalAllTime: float
     protocols: List[FeesProtocol]
-    allChains: List[str]
 
 
 class FeesMetricsByProtocolResponse(TypedDict, total=False):
@@ -162,9 +180,9 @@ class FeesMetricsByProtocolResponse(TypedDict, total=False):
     symbol: Optional[str]
     url: str
     description: str
-    chain: str
+    chain: Optional[str]
     logo: str
-    audits: str
+    audits: Optional[str]
     audit_note: Optional[str]
     gecko_id: Optional[str]
     cmcId: Optional[str]
@@ -173,11 +191,17 @@ class FeesMetricsByProtocolResponse(TypedDict, total=False):
     module: Optional[str]
     twitter: Optional[str]
     audit_links: Optional[List[str]]
+    openSource: Optional[bool]
     github: Optional[List[str]]
+    wrongLiquidity: Optional[bool]
+    stablecoins: Optional[List[str]]
+    tokenRights: Optional[Dict[str, object]]
     dimensions: Optional[Dict[str, object]]
     methodology: Optional[Dict[str, str]]
     misrepresentedTokens: Optional[bool]
     doublecounted: Optional[bool]
+    linkedProtocols: Optional[List[str]]
+    childProtocols: Optional[List[FeesSummaryChildProtocol]]
     defillamaId: str
     displayName: str
     methodologyURL: Optional[str]
@@ -188,7 +212,7 @@ class FeesMetricsByProtocolResponse(TypedDict, total=False):
     previousNames: Optional[List[str]]
     hallmarks: Optional[List[List[object]]]
     defaultChartView: Optional[str]
-    breakdownMethodology: Optional[str]
+    breakdownMethodology: Optional[object]
     slug: str
     protocolType: str
     total24h: Optional[float]
@@ -197,6 +221,8 @@ class FeesMetricsByProtocolResponse(TypedDict, total=False):
     total30d: Optional[float]
     totalAllTime: Optional[float]
     hasLabelBreakdown: bool
+    change_1d: Optional[float]
+    referralUrl: Optional[str]
 
 
 __all__ = [
