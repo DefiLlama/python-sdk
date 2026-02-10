@@ -435,7 +435,6 @@ FeeDataType.DAILY_BRIBES_REVENUE
 FeeDataType.DAILY_TOKEN_TAXES
 FeeDataType.DAILY_APP_FEES
 FeeDataType.DAILY_APP_REVENUE
-FeeDataType.DAILY_EARNINGS
 ```
 
 ### getOverview
