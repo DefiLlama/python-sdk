@@ -67,11 +67,11 @@ class BridgesModule:
             if options.get("limit") is not None:
                 params["limit"] = options.get("limit")
             if options.get("startTimestamp") is not None:
-                params["startTimestamp"] = options.get("startTimestamp")
+                params["starttimestamp"] = options.get("startTimestamp")
             if options.get("endTimestamp") is not None:
-                params["endTimestamp"] = options.get("endTimestamp")
+                params["endtimestamp"] = options.get("endTimestamp")
             if options.get("sourceChain"):
-                params["sourceChain"] = options.get("sourceChain")
+                params["sourcechain"] = options.get("sourceChain")
             if options.get("address"):
                 params["address"] = options.get("address")
         return self._client.get(
