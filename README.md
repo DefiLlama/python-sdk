@@ -297,15 +297,6 @@ res = pro_client.yields.queryEarn(
 # Returns: {"data": List[EarnPool], "pagination": {total, page, limit}}
 ```
 
-### getEarnPool
-
-Get one earn pool with top-10 holders, holder count changes, and available history.
-
-```python
-res = pro_client.yields.getEarnPool("747c1d2a-c668-4682-b9f9-296708a3dd90")
-# Returns: {"data": EarnPoolDetail}; raises NotFoundError for unknown ids
-```
-
 ### getEarnHistory
 
 Get daily TVL/APY history for an earn pool. `range` is `"30d"`, `"90d"` or `"max"` (default).
@@ -322,13 +313,6 @@ Get all borrow markets with supply APY, borrow cost, LTV, and liquidity.
 ```python
 res = pro_client.yields.getBorrowMarkets()
 # Returns: {"as_of": str (optional), "data": List[BorrowMarket]}
-```
-
-### getBorrowMarket
-
-```python
-res = pro_client.yields.getBorrowMarket("e880e828-ca59-4ec6-8d4f-27182a4dc23d")
-# Returns: {"data": BorrowMarketDetail}
 ```
 
 ### getBorrowMarketHistory
@@ -756,7 +740,6 @@ from defillama_sdk import (
     Stablecoin,
     # Yields
     EarnPool,
-    EarnPoolDetail,
     EarnHistoryPoint,
     EarnQueryParams,
     BorrowMarket,

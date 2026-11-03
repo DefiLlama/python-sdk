@@ -7,11 +7,9 @@ from urllib.parse import quote
 from ..client import BaseClient
 from ..types.yields import (
     BorrowMarketHistoryResponse,
-    BorrowMarketResponse,
     BorrowMarketsResponse,
     BorrowPoolsResponse,
     EarnHistoryResponse,
-    EarnPoolResponse,
     EarnQueryParams,
     EarnQueryResponse,
     EarnResponse,
@@ -225,24 +223,6 @@ class YieldsModule:
             api_namespace="yields",
         )
 
-    def getEarnPool(self, id: str) -> EarnPoolResponse:
-        """Get one earn pool with holder detail and which history series exist.
-
-        Holder detail is the top 10 holders and holder count changes.
-
-        Args:
-            id: Pool UUID (same id as v1 `pool`)
-
-        Raises:
-            NotFoundError: if the pool is not in v2
-        """
-
-        return self._client.get(
-            f"/v2/earn/{quote(id)}",
-            requires_auth=True,
-            api_namespace="yields",
-        )
-
     def getEarnHistory(self, id: str, range: Optional[YieldHistoryRange] = None) -> EarnHistoryResponse:
         """Get daily TVL/APY history for an earn pool. Replaces `getPoolChart`.
 
@@ -274,22 +254,6 @@ class YieldsModule:
 
         return self._client.get(
             "/v2/borrow/markets",
-            requires_auth=True,
-            api_namespace="yields",
-        )
-
-    def getBorrowMarket(self, id: str) -> BorrowMarketResponse:
-        """Get one borrow market and which history series exist.
-
-        Args:
-            id: Pool UUID
-
-        Raises:
-            NotFoundError: if the market is not in v2
-        """
-
-        return self._client.get(
-            f"/v2/borrow/markets/{quote(id)}",
             requires_auth=True,
             api_namespace="yields",
         )

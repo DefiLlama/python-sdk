@@ -269,13 +269,6 @@ class YieldStability(TypedDict, total=False):
     base_reward_intrinsic: Optional[float]
 
 
-class YieldAvailableHistory(TypedDict, total=False):
-    """Which history series exist for a pool."""
-
-    supply: bool
-    borrow: bool
-
-
 class EarnPoolAttributes(TypedDict, total=False):
     stablecoin_only: bool
     single_asset_exposure: bool
@@ -288,9 +281,14 @@ class EarnPoolHolders(TypedDict, total=False):
     top_10_share_pct: Optional[float]
 
 
-# EarnPool without `holders`, shared with EarnPoolDetail (TS `Omit<EarnPool, "holders">`):
-# a TypedDict subclass can't narrow an inherited key's type.
-class _EarnPoolFields(TypedDict, total=False):
+class EarnPool(TypedDict, total=False):
+    """An earn pool from `/yields/v2/earn`. Replaces `YieldPool`.
+
+    Changes from v1: `protocol` is a display name (no project slug); lending
+    `tvl_usd` is total supplied; APY is nested under `apy.current|avg_7d|avg_30d`;
+    tokens are objects; only pools with at least $10K supplied are listed.
+    """
+
     # Pool UUID (same id as v1 `pool`)
     id: str
     # Stable adapter key (v1 `pool_old`)
@@ -313,69 +311,9 @@ class _EarnPoolFields(TypedDict, total=False):
     price_per_share: Optional[float]
     volume_1d_usd: Optional[float]
     attributes: EarnPoolAttributes
+    holders: EarnPoolHolders
     # Room left under the supply cap in USD; null = uncapped, 0 = at/over cap
     available_supply_usd: Optional[float]
-
-
-class EarnPool(_EarnPoolFields, total=False):
-    """An earn pool from `/yields/v2/earn`. Replaces `YieldPool`.
-
-    Changes from v1: `protocol` is a display name (no project slug); lending
-    `tvl_usd` is total supplied; APY is nested under `apy.current|avg_7d|avg_30d`;
-    tokens are objects; only pools with at least $10K supplied are listed.
-    """
-
-    holders: EarnPoolHolders
-
-
-YieldHolderMovementStatus = Literal["up", "down", "steady", "entered_top_10", "unknown"]
-
-
-class YieldHolderShareChange(TypedDict, total=False):
-    status: YieldHolderMovementStatus
-    pct_point_delta: Optional[float]
-
-
-class YieldHolderBalanceChange(TypedDict, total=False):
-    status: YieldHolderMovementStatus
-    pct_delta: Optional[float]
-
-
-class YieldHolderChange(TypedDict, total=False):
-    """A top-10 holder's share and balance movement over a window."""
-
-    share: YieldHolderShareChange
-    balance: YieldHolderBalanceChange
-
-
-class YieldTopHolder(TypedDict, total=False):
-    rank: int
-    address: str
-    # Raw token balance as a decimal string (scale by `decimals`)
-    balance: Optional[str]
-    share_pct: Optional[float]
-    change_7d: YieldHolderChange
-    change_30d: YieldHolderChange
-
-
-class EarnPoolTopHolders(TypedDict, total=False):
-    decimals: Optional[int]
-    holders: List[YieldTopHolder]
-
-
-class EarnPoolDetailHolders(EarnPoolHolders, total=False):
-    """Holder data on the pool detail route."""
-
-    count_change_7d: Optional[int]
-    count_change_30d: Optional[int]
-    top_10_holders: Optional[EarnPoolTopHolders]
-
-
-class EarnPoolDetail(_EarnPoolFields, total=False):
-    """A single earn pool from `/yields/v2/earn/{id}`: an `EarnPool` plus holder detail."""
-
-    holders: EarnPoolDetailHolders
-    available_history: YieldAvailableHistory
 
 
 class EarnHistoryPoint(TypedDict, total=False):
@@ -430,12 +368,6 @@ class EarnQueryResponse(TypedDict):
     pagination: EarnQueryPagination
 
 
-class EarnPoolResponse(TypedDict):
-    """Response from `/yields/v2/earn/{id}`."""
-
-    data: EarnPoolDetail
-
-
 class EarnHistoryResponse(TypedDict):
     """Response from `/yields/v2/earn/{id}/history`. Replaces `YieldChartResponse`."""
 
@@ -477,12 +409,6 @@ class BorrowMarket(TypedDict, total=False):
     intrinsic: BorrowMarketIntrinsic
 
 
-class BorrowMarketDetail(BorrowMarket, total=False):
-    """A single borrow market from `/yields/v2/borrow/markets/{id}`."""
-
-    available_history: YieldAvailableHistory
-
-
 class BorrowMarketHistoryPoint(TypedDict, total=False):
     """Daily borrow market history point.
 
@@ -503,12 +429,6 @@ class BorrowMarketsResponse(TypedDict, total=False):
     # Newest sample time in the snapshot (ISO), when rows carry one
     as_of: str
     data: List[BorrowMarket]
-
-
-class BorrowMarketResponse(TypedDict):
-    """Response from `/yields/v2/borrow/markets/{id}`."""
-
-    data: BorrowMarketDetail
 
 
 class BorrowMarketHistoryResponse(TypedDict):
@@ -547,30 +467,18 @@ __all__ = [
     "YieldIntrinsicSourcePool",
     "YieldIntrinsic",
     "YieldStability",
-    "YieldAvailableHistory",
     "EarnPoolAttributes",
     "EarnPoolHolders",
     "EarnPool",
-    "YieldHolderMovementStatus",
-    "YieldHolderShareChange",
-    "YieldHolderBalanceChange",
-    "YieldHolderChange",
-    "YieldTopHolder",
-    "EarnPoolTopHolders",
-    "EarnPoolDetailHolders",
-    "EarnPoolDetail",
     "EarnHistoryPoint",
     "EarnQueryParams",
     "EarnResponse",
     "EarnQueryPagination",
     "EarnQueryResponse",
-    "EarnPoolResponse",
     "EarnHistoryResponse",
     "BorrowMarketIntrinsic",
     "BorrowMarket",
-    "BorrowMarketDetail",
     "BorrowMarketHistoryPoint",
     "BorrowMarketsResponse",
-    "BorrowMarketResponse",
     "BorrowMarketHistoryResponse",
 ]
