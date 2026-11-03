@@ -266,46 +266,96 @@ dominance = pro_client.stablecoins.getDominance("ethereum", 1)
 
 Yield farming, lending, staking, and perpetual funding rates.
 
-### getPools
+### getEarn
+
+Get all earn pools (pools with at least $10K supplied).
 
 ```python
-pools = pro_client.yields.getPools()
+res = pro_client.yields.getEarn()
+# Returns: {"as_of": str (optional), "data": List[EarnPool]}
+pool = res["data"][0]
+pool["protocol"]  # "Aave V3" (display name, not a slug)
+pool["apy"]["current"]["total"]  # also apy.avg_7d / apy.avg_30d, each {base, reward, total}
+pool["underlying_tokens"]  # [{address, symbol, decimals}]
 ```
 
-### getPoolsOld
+### queryEarn
+
+Filter and paginate earn pools server-side. `chain` and `protocol` are slugs (up to 20 values each); rows are sorted by TVL descending.
 
 ```python
-pools = pro_client.yields.getPoolsOld()
+res = pro_client.yields.queryEarn(
+    {
+        "chain": ["ethereum", "arbitrum"],
+        "protocol": "aave-v3",
+        "stablecoin": True,  # also single_asset_exposure, impermanent_loss_risk
+        "min_tvl": 1_000_000,
+        "limit": 100,  # 1-300, default 100
+        "page": 1,
+    }
+)
+# Returns: {"data": List[EarnPool], "pagination": {total, page, limit}}
 ```
 
-### getPoolChart
+### getEarnPool
+
+Get one earn pool with top-10 holders, holder count changes, and available history.
 
 ```python
-chart = pro_client.yields.getPoolChart("pool-uuid-here")
+res = pro_client.yields.getEarnPool("747c1d2a-c668-4682-b9f9-296708a3dd90")
+# Returns: {"data": EarnPoolDetail}; raises NotFoundError for unknown ids
 ```
 
-### getBorrowPools
+### getEarnHistory
+
+Get daily TVL/APY history for an earn pool. `range` is `"30d"`, `"90d"` or `"max"` (default).
 
 ```python
-borrow_pools = pro_client.yields.getBorrowPools()
+res = pro_client.yields.getEarnHistory("747c1d2a-c668-4682-b9f9-296708a3dd90", "30d")
+# Returns: {"data": List[EarnHistoryPoint]} — {date, tvl_usd, apy: {avg_1d, avg_7d, avg_30d}, ...}
 ```
 
-### getLendBorrowChart
+### getBorrowMarkets
+
+Get all borrow markets with supply APY, borrow cost, LTV, and liquidity.
 
 ```python
-chart = pro_client.yields.getLendBorrowChart("pool-uuid-here")
+res = pro_client.yields.getBorrowMarkets()
+# Returns: {"as_of": str (optional), "data": List[BorrowMarket]}
 ```
 
-### getPerps
+### getBorrowMarket
 
 ```python
-perps = pro_client.yields.getPerps()
+res = pro_client.yields.getBorrowMarket("e880e828-ca59-4ec6-8d4f-27182a4dc23d")
+# Returns: {"data": BorrowMarketDetail}
 ```
 
-### getLsdRates
+### getBorrowMarketHistory
+
+Get daily borrow-side history for a market. `range` is `"30d"`, `"90d"` or `"max"` (default).
 
 ```python
-lsd_rates = pro_client.yields.getLsdRates()
+res = pro_client.yields.getBorrowMarketHistory("e880e828-ca59-4ec6-8d4f-27182a4dc23d", "90d")
+# Returns: {"data": List[BorrowMarketHistoryPoint]}
+```
+
+### getPerpFundingRates
+
+Get perpetual futures funding rates, open interest and index price (Binance and OKX).
+
+```python
+perps = pro_client.yields.getPerpFundingRates()
+# Returns: {"status": str, "data": List[PerpPool]}
+```
+
+### getLstRates
+
+Get liquid staking token exchange rates.
+
+```python
+lst_rates = pro_client.yields.getLstRates()
+# Returns: List[LsdRate]
 ```
 
 ---
@@ -682,7 +732,7 @@ usage = pro_client.account.getUsage()
 from defillama_sdk import ApiKeyRequiredError, RateLimitError, NotFoundError, ApiError
 
 try:
-    data = pro_client.yields.getPools()
+    data = pro_client.yields.getEarn()
 except ApiKeyRequiredError:
     print("Pro API key required for this endpoint")
 except RateLimitError as exc:
@@ -700,7 +750,22 @@ except ApiError as exc:
 All types are available from `defillama_sdk.types`, and are re-exported at the top level:
 
 ```python
-from defillama_sdk import Protocol, CoinPricesResponse, Stablecoin, YieldPool
+from defillama_sdk import (
+    Protocol,
+    CoinPricesResponse,
+    Stablecoin,
+    # Yields
+    EarnPool,
+    EarnPoolDetail,
+    EarnHistoryPoint,
+    EarnQueryParams,
+    BorrowMarket,
+    BorrowMarketHistoryPoint,
+    PerpPool,
+    LsdRate,
+    YieldPool,  # deprecated (v1)
+    BorrowPool,  # deprecated (v1)
+)
 ```
 
 ---
