@@ -3,7 +3,7 @@
 from urllib.parse import quote
 
 from ..client import BaseClient
-from ..types.etfs import EtfHistoryItem, EtfOverviewItem, FdvPeriod, FdvPerformanceItem
+from ..types.etfs import EtfFlowItem, EtfSnapshotItem, FdvPeriod, FdvPerformanceItem
 
 
 class EtfsModule:
@@ -12,38 +12,20 @@ class EtfsModule:
     def __init__(self, client: BaseClient) -> None:
         self._client = client
 
-    def getOverview(self) -> list[EtfOverviewItem]:
-        """Get Bitcoin ETF overview."""
+    def getSnapshot(self) -> list[EtfSnapshotItem]:
+        """Get every ETF with its current metrics, one row per ticker."""
 
         return self._client.get(
-            "/overview",
+            "/snapshot",
             requires_auth=True,
             api_namespace="etfs",
         )
 
-    def getOverviewEth(self) -> list[EtfOverviewItem]:
-        """Get Ethereum ETF overview."""
+    def getFlows(self) -> list[EtfFlowItem]:
+        """Get historical daily flows per asset."""
 
         return self._client.get(
-            "/overviewEth",
-            requires_auth=True,
-            api_namespace="etfs",
-        )
-
-    def getHistory(self) -> list[EtfHistoryItem]:
-        """Get Bitcoin ETF flow history."""
-
-        return self._client.get(
-            "/history",
-            requires_auth=True,
-            api_namespace="etfs",
-        )
-
-    def getHistoryEth(self) -> list[EtfHistoryItem]:
-        """Get Ethereum ETF flow history."""
-
-        return self._client.get(
-            "/historyEth",
+            "/flows",
             requires_auth=True,
             api_namespace="etfs",
         )

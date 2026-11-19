@@ -646,30 +646,21 @@ raises = pro_client.ecosystem.getRaises()
 
 ## ETFs 🔐
 
-Bitcoin and Ethereum ETF data.
+ETF metrics and flows. Each row carries the asset it belongs to, so filter client side for a
+single asset.
 
-### getOverview
+### getSnapshot
 
 ```python
-btc_etfs = pro_client.etfs.getOverview()
+etfs = pro_client.etfs.getSnapshot()
+btc_etfs = [etf for etf in etfs if etf["asset"] == "bitcoin"]
 ```
 
-### getOverviewEth
+### getFlows
 
 ```python
-eth_etfs = pro_client.etfs.getOverviewEth()
-```
-
-### getHistory
-
-```python
-history = pro_client.etfs.getHistory()
-```
-
-### getHistoryEth
-
-```python
-history_eth = pro_client.etfs.getHistoryEth()
+flows = pro_client.etfs.getFlows()
+eth_flows = [row for row in flows if row["gecko_id"] == "ethereum"]
 ```
 
 ### getFdvPerformance

@@ -3,7 +3,7 @@
 from typing import Dict, TypedDict, Literal
 
 
-class EtfOverviewItem(TypedDict):
+class EtfSnapshotItem(TypedDict):
     ticker: str
     timestamp: int
     asset: str
@@ -17,7 +17,7 @@ class EtfOverviewItem(TypedDict):
     volume: float
 
 
-class EtfHistoryItem(TypedDict):
+class EtfFlowItem(TypedDict):
     gecko_id: str
     day: str
     total_flow_usd: float
@@ -30,8 +30,8 @@ FdvPerformanceItem = Dict[str, float]
 
 
 __all__ = [
-    "EtfOverviewItem",
-    "EtfHistoryItem",
+    "EtfSnapshotItem",
+    "EtfFlowItem",
     "FdvPeriod",
     "FdvPerformanceItem",
 ]
