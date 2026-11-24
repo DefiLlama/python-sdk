@@ -73,11 +73,17 @@ class BaseClient:
             if not self._api_key:
                 raise ApiKeyRequiredError(endpoint)
             return f"{BASE_URLS['pro']}/{self._api_key}/bridges{endpoint}"
+        # The free hosts never read the key, so a keyed client sends free endpoints to pro-api too.
+        # Otherwise paying users hit the free rate limits.
         if base == "coins":
+            if self._api_key:
+                return f"{BASE_URLS['pro']}/{self._api_key}/coins{endpoint}"
             return f"{BASE_URLS['coins']}{endpoint}"
         if base == "stablecoins":
+            if self._api_key:
+                return f"{BASE_URLS['pro']}/{self._api_key}/stablecoins{endpoint}"
             return f"{BASE_URLS['stablecoins']}{endpoint}"
-        if requires_auth:
+        if requires_auth or self._api_key:
             if not self._api_key:
                 raise ApiKeyRequiredError(endpoint)
             namespace = f"/{api_namespace}" if api_namespace else ""
