@@ -20,7 +20,7 @@ from defillama_sdk import DefiLlama
 # Free tier
 client = DefiLlama()
 
-# Pro tier (required for premium endpoints)
+# Pro tier (required for premium endpoints). With a key, every request goes to pro-api.llama.fi, free endpoints included
 pro_client = DefiLlama({"api_key": "your-api-key"})
 
 # Get all protocols
